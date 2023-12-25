@@ -16,6 +16,12 @@ class CompanySerializer(serializers.ModelSerializer):
 
 # Parkovka serializer CRUD uchun
 class ParkingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parking
+        fields = ['company', 'name', 'created_by']
+
+
+class ParkingListSerializer(serializers.ModelSerializer):
     company = CompanySerializer()
     created_by = UserGetSerializer()
 

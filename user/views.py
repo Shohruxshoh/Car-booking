@@ -18,7 +18,8 @@ from user.utils import equal_username_view
 
 # Create your views here.
 
-class RegisterView(APIView):
+class RegisterView(GenericAPIView):
+    serializer_class = UserSerializer
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -54,9 +55,9 @@ class LogoutView(GenericAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class ChangePasswordView(APIView):
+class ChangePasswordView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
-
+    serializer_class = ChangePasswordSerializer
     def post(self, request, *args, **kwargs):
         serializer = ChangePasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -100,8 +101,10 @@ class UserListView(ListAPIView):
     permission_classes = (IsAdminUser,)
 
 
-class UserResetPasswordView(APIView):
+class UserResetPasswordView(GenericAPIView):
+    queryset = User.objects.all()
     permission_classes = (IsAdminUser,)
+    serializer_class = ResetPasswordSerializer
 
     def post(self, request, pk, *args, **kwargs):
         serializer = ResetPasswordSerializer(data=request.data)
@@ -124,7 +127,7 @@ class JobCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-class JobListView(CreateAPIView):
+class JobListView(ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JObSerializer
     permission_classes = (IsAuthenticated,)

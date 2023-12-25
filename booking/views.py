@@ -1,4 +1,5 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, GenericAPIView, ListAPIView, \
+    CreateAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,15 +8,22 @@ from django.http import HttpResponse
 from car.models import BHM, Car, CarType
 from carBooking.permissions import IsOwnerOrReadOnly, IsOwnerOrReadOnlyBooking, IsOwnerOrReadOnlyParking
 from .models import Parking, Booking, Amount
-from .serializers import ParkingSerializer, BookingSerializer, BookingListSerializer, AmountSerializer
+from .serializers import ParkingSerializer, BookingSerializer, BookingListSerializer, AmountSerializer, \
+    ParkingListSerializer
 
 
 # Create your views here.
 
 # Parkovka yaratish va ro'xatini chiqarish uchun
-class ParkingListCreateView(ListCreateAPIView):
+class ParkingCreateView(CreateAPIView):
     queryset = Parking.objects.all()
     serializer_class = ParkingSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class ParkingListView(ListAPIView):
+    queryset = Parking.objects.all()
+    serializer_class = ParkingListSerializer
     permission_classes = (IsAuthenticated,)
 
 

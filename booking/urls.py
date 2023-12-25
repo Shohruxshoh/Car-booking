@@ -1,12 +1,13 @@
 from django.urls import path
 
-from booking.views import ParkingListCreateView, ParkingUpdateDeleteView, BookingCreateView, BookingUpdateDeleteView, \
+from booking.views import ParkingListView, ParkingUpdateDeleteView, BookingCreateView, BookingUpdateDeleteView, \
     BookingListView, BookingGiveUpView, AmountCreateView, booking_to_excel, amount_to_excel, AmountListView, \
-    ParkingGetOwnerView, BookingGetOwnerView
+    ParkingGetOwnerView, BookingGetOwnerView, ParkingCreateView
 
 urlpatterns = [
     # Parkovka yaratish
-    path('parking/', ParkingListCreateView.as_view()),
+    path('parking/', ParkingListView.as_view()),
+    path('parking-create/', ParkingCreateView.as_view()),
     path('parking/owner/', ParkingGetOwnerView.as_view()),
     path('parking/<int:pk>/', ParkingUpdateDeleteView.as_view()),
     # Booking
