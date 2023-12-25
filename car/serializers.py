@@ -4,14 +4,14 @@ from car.models import Car, CarType
 from user.models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserCarSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username"]
 
 
 class CarListSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserCarSerializer()
 
     class Meta:
         model = Car
