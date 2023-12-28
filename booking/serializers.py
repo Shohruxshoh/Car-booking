@@ -42,7 +42,7 @@ class BookingSerializer(serializers.ModelSerializer):
         date1 = attrs.get('date')
         start = attrs.get('start')
         end = attrs.get('end')
-        booking_day = Booking.objects.filter(car=car, parking=parking, date=date1)
+        booking_day = Booking.objects.filter(car=car, parking=parking, date=date1, is_deleted=False)
         booking = Booking.objects.filter(car=car, is_parking=True)
         booked_slot = Booking.objects.filter(parking=parking, date=date1, start__range=[start, end],
                                              end__range=[start, end], is_parking=True)
@@ -69,7 +69,6 @@ class BookingSerializer(serializers.ModelSerializer):
             start_datetime1 = datetime.combine(date.today(), booking.start)
             end_datetime1 = datetime.combine(date.today(), booking.end)
             time_difference1 += end_datetime1 - start_datetime1
-            print(time_difference1)
 
         time_difference = end_datetime - start_datetime
         time_difference2 = time_difference1 + time_difference

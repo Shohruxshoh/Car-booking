@@ -2,7 +2,7 @@ from django.urls import path
 
 from booking.views import ParkingListView, ParkingUpdateDeleteView, BookingCreateView, BookingUpdateDeleteView, \
     BookingListView, BookingGiveUpView, AmountCreateView, booking_to_excel, amount_to_excel, AmountListView, \
-    ParkingGetOwnerView, BookingGetOwnerView, ParkingCreateView
+    ParkingGetOwnerView, BookingGetOwnerView, ParkingCreateView, BookingEndView
 
 urlpatterns = [
     # Parkovka yaratish
@@ -16,6 +16,7 @@ urlpatterns = [
     path('create/', BookingCreateView.as_view()),
     path('<int:pk>/', BookingUpdateDeleteView.as_view()),
     path('give-up/<int:pk>/', BookingGiveUpView.as_view()),
+    path('end/<int:pk>/', BookingEndView.as_view()),
 
     # To'lov
     path("amount/", AmountListView.as_view()),

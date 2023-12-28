@@ -65,6 +65,16 @@ class BookingGiveUpView(APIView):
         return Response({"success": True, "message": "Bekor qilindi"})
 
 
+class BookingEndView(APIView):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnlyBooking,)
+
+    def post(self, request, pk, *args, **kwargs):
+        booking = Booking.objects.filter(id=pk).first()
+        booking.is_parking = False
+        booking.save()
+        return Response({"success": True, "message": "Tugatildi"})
+
+
 class BookingListView(ListAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingListSerializer
