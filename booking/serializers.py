@@ -47,14 +47,14 @@ class BookingSerializer(serializers.ModelSerializer):
         booked_slot = Booking.objects.filter(parking=parking, date=date1, start__range=[start, end],
                                              end__range=[start, end], is_parking=True)
 
-        if booking_day and self.is_booking_day_valid(booking_day, start, end):
-            raise ValidationError({"success": False, "message": "Bir kunda 3 soatdan ko'p foydalanish mumkin emas!"})
-
         if booking.exists():
             raise ValidationError({"success": False, "message": "Bu mashina parkovka qilingan!"})
 
         if booked_slot.exists():
             raise ValidationError({"success": False, "message": "Bu joy band siz qo'ymoqchi bo'lgan vaqtda!"})
+
+        if booking_day and self.is_booking_day_valid(booking_day, start, end):
+            raise ValidationError({"success": False, "message": "Bir kunda 3 soatdan ko'p foydalanish mumkin emas!"})
 
         return attrs
 
@@ -67,7 +67,7 @@ class BookingSerializer(serializers.ModelSerializer):
         time_difference = end_datetime - start_datetime
         time_difference1 = end_datetime1 - start_datetime1
         time_difference2 = time_difference1 + time_difference
-        return time_difference2 <= timedelta(hours=3)
+        return time_difference2 >= timedelta(hours=3)
 
 
 class BookingListSerializer(serializers.ModelSerializer):
